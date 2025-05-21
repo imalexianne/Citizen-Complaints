@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Citizen</title>
+  
+  <!-- Bootstrap (Optional for styling) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="{% static 'css/editprofile.css' %}">
+
+  
+  <!-- jQuery (Required for dynamic form updates) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <div class="main-content">
+    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <h2>Edit Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+
+      {% for field in form %}
+        
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <span class="text-danger">{{ field.errors }}</span>
+            {% endif %}
+          </div>
+       
+      {% endfor %}
+
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+
+  <script src="{% static 'js/editprofile.js' %}"></script>
+</body>
+</html>

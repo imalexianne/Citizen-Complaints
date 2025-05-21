@@ -1,0 +1,11 @@
+<h2>Give Feedback for Complaint #{{ complaint.complaint_id }}</h2>
+
+<p><strong>Citizen:</strong> {{ complaint.citizen.name }}</p>
+<p><strong>Service:</strong> {{ complaint.publicService }}</p>
+<p><strong>Complaint Details:</strong> {{ complaint.details }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit Feedback</button>
+</form>

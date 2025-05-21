@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Complaint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/submit_complaint.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Submit Complaint</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <p><strong>Service:</strong> {{ publicservice.serviceType }}</p>
+        
+            <input type="hidden" name="publicservice_type" value="{{ publicservice.id }}">
+        
+            <label for="complaintNature">Nature of Complaint</label>
+            <input type="text" name="complaintNature" id="complaintNature" required>
+        
+            <label for="details">Details</label>
+            <textarea name="details" id="details" rows="5" required></textarea>
+        
+            <button type="submit">Submit Complaint</button>
+        </form>
+        
+
+        <a href="/citizen/dashboard" style="padding: 2%;">
+            <button class="edit-button">Back</button>
+        </a>
+    </div>
+</body>
+</html>

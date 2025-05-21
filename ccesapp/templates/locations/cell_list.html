@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Cells</h2>
+    <a href="{% url 'cell_create' %}">Add Cell</a>
+    <ul>
+        {% for cell in cells %}
+            <li>{{ cell.name }} ({{ cell.sector.name }})
+                <a href="{% url 'cell_update' cell.pk %}">Edit</a>
+                <a href="{% url 'cell_delete' cell.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

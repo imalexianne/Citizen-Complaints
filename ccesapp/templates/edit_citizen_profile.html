@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <style>
+        input[disabled], select[disabled] {
+            background-color: #eee;
+            cursor: not-allowed;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+
+    <!-- jQuery for AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+    <div class="form-container">
+        <h2>Edit Your Profile</h2>
+        <form method="post" id="clientForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <!-- Plan selection (InsurancePlan) -->
+            <div>
+                <label for="id_selected_plan">Insurance Plan:</label>
+                {{ form.selected_plan }}
+            </div>
+
+            <!-- Plan Breakdown (dynamically populated) -->
+            <div>
+                <label for="id_selected_breakdown">Plan Breakdown:</label>
+                {{ form.selected_breakdown }}
+            </div>
+
+            <!-- Display the amount and savings that will be updated based on Plan Breakdown selection -->
+            <div>
+                <label>Amount:</label>
+                <input type="text" id="id_amount" value="{{ form.instance.amount }}" readonly>
+            </div>
+            <div>
+                <label>Savings:</label>
+                <input type="text" id="id_savings" value="{{ form.instance.savings }}" readonly>
+            </div>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <br>
+        <a href="/client/dashboard">Back to Dashboard</a>
+    </div>
+
+    <!-- AJAX to handle InsurancePlan and PlanBreakdown change -->
+    <script>
+    $(document).ready(function() {
+        // When Insurance Plan selection changes
+        $('#id_selected_plan').change(function() {
+            var planId = $(this).val();
+
+            // Only proceed if the Insurance Plan is selected
+            if (planId) {
+                $.ajax({
+                    url: "/get-plan-breakdowns/",  // Assuming this URL fetches breakdowns for the selected plan
+                    data: { 'plan_id': planId },
+                    success: function(data) {
+                        var breakdownSelect = $('#id_selected_breakdown');
+                        breakdownSelect.empty();  // Clear current options
+                        
+                        // Add the new options based on the AJAX response
+                        $.each(data.breakdowns, function(index, breakdown) {
+                            breakdownSelect.append('<option value="' + breakdown.id + '">' + breakdown.amount + ' - ' + breakdown.savings + '</option>');
+                        });
+
+                        // Optionally trigger the change event to update amount and savings based on the first breakdown
+                        breakdownSelect.change();
+                    },
+                    error: function() {
+                        alert("Error fetching plan breakdowns.");
+                    }
+                });
+            }
+        });
+
+        // When Plan Breakdown selection changes
+        $('#id_selected_breakdown').change(function() {
+            var breakdownId = $(this).val();
+
+            // Only proceed if a Plan Breakdown is selected
+            if (breakdownId) {
+                $.ajax({
+                    url: "/get-plan-breakdown/",  // Assuming this URL fetches amount/savings for the selected breakdown
+                    data: { 'id': breakdownId },
+                    success: function(data) {
+                        // Update the amount and savings fields
+                        $('#id_amount').val(data.amount);
+                        $('#id_savings').val(data.savings);
+                    },
+                    error: function() {
+                        alert("Error fetching plan breakdown details.");
+                    }
+                });
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>

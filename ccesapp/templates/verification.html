@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCES Login</title>
+    <link rel="stylesheet" href="{% static 'css/verification.css' %}">
+</head>
+<body>
+<form method="POST" action="/verify_nid">
+
+    <center><div class="logo">
+        <img src="">
+    </div></center>
+    <div><br><br>
+        <h2 style="color: white;">Citizen NID Verification</h2><br>
+        <P style="color: white;">To get your verification we need your NID</P>
+    {% csrf_token %}
+    
+    <div class="input-group">
+        <img src="/static/img/nidverification.PNG" alt="Verification Icon">
+        <input type="text" name="national_id" placeholder="Nat-ID" required>
+    </div>
+    
+    <div class="input-group">
+        <img src="/static/img/DoB.PNG" alt="DoB Icon">
+        <input type="text" name="dob" placeholder="DD/MM/YY" required>
+    </div>
+    
+    <button type="submit" class="login-btn">Verify</button>
+</form>
+<!-- <a href="password">Next</a> <a href="/">Back</a> -->
+
+{% if message %}
+    <p style="color: yellow;">{{ message }}</p>
+{% endif %}
+</div>
+</body>
+<br><br>
+</html>

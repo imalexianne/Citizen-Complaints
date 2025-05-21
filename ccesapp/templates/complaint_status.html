@@ -1,0 +1,62 @@
+<!-- templates/claim_status.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Complaint Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        .status-container {
+            max-width: 600px;
+            margin: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #333;
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="status-container">
+        <h2>Complaint Status</h2>
+
+        <div class="field">
+            <span class="label">Complaint ID:</span> {{ complaint.id }}
+        </div>
+
+        <div class="field">
+            <span class="label">Citizen:</span> {{ complaint.citizen.name }}
+        </div>
+
+    
+        <div class="field">
+            <span class="label">Service Type:</span> {{ complaint.publicService}}
+        </div>
+
+        <div class="field">
+            <span class="label">Description:</span> {{ complaint.details }}
+        </div>
+
+        <div class="field">
+            <span class="label">Status:</span> {{ complaint.status }}
+        </div>
+
+        <div class="field">
+            <span class="label">Submitted on:</span> {{ complaint.created_at|date:"Y-m-d H:i" }}
+        </div>
+    </div>
+</body>
+</html>

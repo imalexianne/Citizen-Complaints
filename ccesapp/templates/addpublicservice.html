@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Government Agency</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: url('/static/img/background.png') center center / cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        }
+
+        .signup-container {
+            max-width: 700px;
+            width: 95%;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .logo img {
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+            font-size: 16px;
+        }
+
+        input, select, textarea {
+            border: none;
+            width: 100%;
+            color: white;
+            padding-left: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            height: 50px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        textarea {
+            padding-top: 10px;
+            height: 100px;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .text-danger {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-danger {
+            background-color: rgba(255, 107, 107, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 107, 0.5);
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: url('/static/img/Verify.PNG');
+            background-size: cover;
+            font-weight: bold;
+            cursor: pointer;
+            height: 50px;
+            color: white;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo">
+            
+        </div>
+
+        <h1>Add a Government Public Agency</h1>
+
+        {% if form.errors %}
+            <div class="alert-danger">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="register-btn">Submit</button>
+        </form>
+
+        <footer>
+            <a href="#">Terms & Conditions</a> | <a href="#">Privacy Policy</a>
+        </footer>
+    </div>
+</body>
+</html>

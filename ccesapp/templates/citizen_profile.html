@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Citizen Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/citizenprofile.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Citizen Profile</h2>
+        <div class="profile-group">
+
+            <div class="profile-item"><strong>Username:</strong> {{ citizen.username }}</div>
+            <div class="profile-item"><strong>Email:</strong> {{ citizen.email }}</div>
+            <div class="profile-item"><strong>Phone Number:</strong> {{ citizen.phone_number }}</div>
+            <div class="profile-item"><strong>NID:</strong> {{ citizen.nid }}</div>
+            <div class="profile-item"><strong>Account Number:</strong> {{ citizen.account_number }}</div>
+            <div class="profile-item"><strong>Nationality:</strong> {{ citizen.nationality }}</div>
+            <div class="profile-item"><strong>Gender:</strong> {{ citizen.get_gender_display }}</div>
+            <div class="profile-item"><strong>Date of Birth:</strong> {{ citizen.dob }}</div>
+            <div class="profile-item"><strong>Marital Status:</strong> {{ citizen.marital_status }}</div>
+            <div class="profile-item"><strong>Name:</strong> {{ citizen.name }}</div>
+
+            <div class="profile-item"><strong>Province:</strong> {{ citizen.province }}</div>
+            <div class="profile-item"><strong>District:</strong> {{ citizen.district }}</div>
+            <div class="profile-item"><strong>Sector:</strong> {{ citizen.sector }}</div>
+            <div class="profile-item"><strong>Cell:</strong> {{ citizen.cell }}</div>
+            <div class="profile-item"><strong>Village:</strong> {{ citizen.village }}</div>
+            <div class="profile-item"><strong>Street:</strong> {{ citizen.street }}</div>
+
+            {% if citizen.picture %}
+                <div class="profile-item full-width">
+                    <strong>Picture:</strong><br>
+                    <img src="{{ citizen.picture.url }}" alt="Citizen Picture">
+                </div>
+            {% endif %}
+
+ </div>
+        <center><div style="display: flex;">
+            {% if user.is_superuser %}
+            <a href="/admin_dashboard/" style="padding: 2%;">
+                <button class="edit-button">Back</button>
+            </a>
+        {% else %}
+            <a href="/citizen/dashboard" style="padding: 2%;">
+                <button class="edit-button">Back</button>
+            </a>
+        {% endif %}
+        
+        <a href="/edit_citizen/{{ citizen.id }}" style="padding: 2%;">
+            <button class="edit-button">Edit</button>
+        </a>
+    </div>
+</center>
+    </div>
+</body>
+</html>

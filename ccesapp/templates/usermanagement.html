@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        .login-container {
+            display: flex;
+            width: 800px;
+            height: 500px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+      
+
+        
+        .form-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .login-btn {
+            background: url('/static/img/Verify.PNG');
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .login-btn:hover {
+            background-color: #b09d3f;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- <div class="logo-section"> -->
+            <img src="/static/img/usermanagement (1).PNG">
+            <!-- <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"> -->
+                <!-- <path d="M50 15 C35 25, 20 60, 30 80 C40 70, 45 40, 50 30 C55 40, 60 70, 70 80 C80 60, 65 25, 50 15" fill="#c5b358"/>
+            </svg> -->
+        <!-- </div> -->
+        <div class="form-section">
+            <h1>Login</h1>
+            <p class="subtitle">Access to admin dashboard</p>
+            <form action="/admin_dashboard/" method="POST">
+                <div class="form-group">
+                    <input type="email" placeholder="admin@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" value="••••••••" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

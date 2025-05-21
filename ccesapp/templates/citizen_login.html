@@ -1,0 +1,7 @@
+<form method="POST" action="/client/login">
+    {% csrf_token %}
+    <input type="text" name="nid" placeholder="NID" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  

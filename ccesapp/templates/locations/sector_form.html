@@ -1,0 +1,9 @@
+
+    <h2>{% if form.instance.pk %}Edit Sector{% else %}Add Sector{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="/sectors/">Back to List</a>
+

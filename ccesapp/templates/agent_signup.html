@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Registration</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+    background: url('/static/img/background.png') center center / cover no-repeat;
+    /* height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+        .signup-container {
+    max-width: 700px; /* Wider form */
+    width: 95%;
+    padding: 30px;
+    text-align: center;
+    /* background: rgba(0, 0, 0, 0.6); */
+     /* Optional: semi-transparent background for readability */
+    border-radius: 10px;
+    /* overflow-y: auto; */
+    /* max-height: 100vh;  */
+    /* Make sure it fits in the screen height */
+}
+
+
+        .logo img {
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .input-group img {
+            width: 50px;
+            height: 50px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        input {
+            border: none;
+            width: 100%;
+            color: white;
+            padding-left: 15px;
+            background: url('/static/img/natid2.PNG') no-repeat center;
+            background-size: cover;
+            height: 50px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .text-danger {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-danger {
+            background-color: rgba(255, 107, 107, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 107, 0.5);
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: url('/static/img/Verify.PNG');
+            background-size: cover;
+            font-weight: bold;
+            cursor: pointer;
+            height: 50px;
+            color: white;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .login-link a {
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo">
+            <img src="" alt="">
+        </div>
+        
+        <div>
+            <h1>Register</h1>
+            <p class="subtitle">Create your agent account</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                    <div class="alert-danger">
+                        There were errors in your form. Please correct them.
+                    </div>
+                {% endif %}
+                
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Full Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="text-danger">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.agent_reference.id_for_label }}">Agent Reference Number</label>
+                    {{ form.agent_reference }}
+                    {% if form.agent_reference.errors %}
+                        <div class="text-danger">{{ form.agent_reference.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Password</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="text-danger">{{ form.password1.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="text-danger">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+            
+            <p class="login-link">Already have an account? <a href="/agent/login">Login</a></p>
+        </div>
+        
+        <footer>
+            <a href="#">Terms & Conditions</a> | <a href="#">Privacy Policy</a>
+        </footer>
+    </div>
+</body>
+</html>

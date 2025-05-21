@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Villages</h2>
+    <a href="{% url 'village_create' %}">Add Village</a>
+    <ul>
+        {% for village in villages %}
+            <li>{{ village.name }} ({{ village.cell.name }})
+                <a href="{% url 'village_update' village.pk %}">Edit</a>
+                <a href="{% url 'village_delete' village.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

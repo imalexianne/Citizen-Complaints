@@ -1,0 +1,298 @@
+{% load text_filters %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  
+</head>
+<body>
+    <div class="header-container">
+        <div class="header">
+            <i class="fas fa-bars hamburger-menu" onclick="toggleSidebar()"></i>
+
+        </div>
+        
+    <div class="sidebar">
+
+        <ul class="sidebar-menu">
+            <li class="active">
+                <i class="fas fa-user"></i>
+                Citizen Management
+            </li>
+
+            
+            <li>
+                <i class="fas fa-exclamation-circle"></i>
+                Complaint Management
+            </li>
+            <li>
+                <i class="fas fa-check-circle"></i>
+                Complaint Parameters
+            </li>
+
+
+
+            <li>
+                <i class="fas fa-list"></i>
+                Government Agencies
+            </li>
+
+
+            <li>
+                <i class="fas fa-bell"></i>
+                Notification Settings
+            </li>
+
+            <li>
+                <i class="fas fa-user-shield"></i>
+                Admin Management
+            </li>
+
+            <li>
+                <i class="fas fa-map-marker-alt"></i>
+                Location Management
+            </li>
+            <li><i class="fas fa-cogs"></i> Settings</li>
+      <li><a href="/logout/" style="text-decoration: none; color: white;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      
+        </ul>
+    </div>
+
+        </div>
+   
+
+        <div class="card">
+
+            <div id="citizen-table" class="card" style="display: block;">
+
+                <div class="card-header">
+                    <h2 class="card-title">Citizens: {{ user_count }}</h2>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add citizen
+                    </button>
+                </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Father Name</th>
+                            <th>NID Number</th>
+                            <th>Gender</th>
+                            <th>Date Of Birth</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for citizen in citizens %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ citizen.name }}</td>
+                            <td>{{ citizen.father_name }}</td>
+                            <td>{{ citizen.nid }}</td>
+                            <td>{{ citizen.gender }}</td>
+                            <td>{{ citizen.dob }}</td>
+
+                            <td class="action-buttons">
+                                <a href="/citizen_profile/{{ citizen.id }}" class="btn-action btn-profile">
+                                    <i class="fas fa-user"></i>Profile
+                                </a>
+                                <a href="/edit_citizen/{{ citizen.id }}" class="btn-action btn-edit">
+                                    <i class="fas fa-edit"></i>Edit
+                                </a>
+                                <form method="POST" action="/delete_citizen/{{ citizen.id }}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-action btn-delete"
+                                        onclick="return confirm('Are you sure you want to delete this citizen?');">
+                                        <i class="fas fa-trash"></i>Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8">No citizens available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="complaint-table" class="card" style="display: none;">
+                <div class="card-header">
+                    <h3 class="card-title">Citizens Complaints</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                  <th>Citizen</th>
+                                  <th>Citizen Location</th>
+                                  <th>Service Type</th>
+                                  <th>Complaint Details</th>
+                                  <th>Feedback</th>
+                                  <th>Complaint Status</th>
+                                 
+                                  <th>Action</th>
+                                 
+                              </tr>
+                        </thead>
+                      
+              
+                        <tbody>
+                          {% for complaint in complaints %}
+                          <tr>
+                            <td>{{ complaint.complaint_id }}</td>
+                            <td>{{ complaint.citizen.name }}</td>
+                            <td>
+                                <b>Province:</b> {{ complaint.citizen.province|remove_parentheses }}<br>
+                                <b>District:</b> {{ complaint.citizen.district|remove_parentheses }}<br>
+                                <b>Sector:</b> {{ complaint.citizen.sector|remove_parentheses }}<br>
+                                <b>Cell:</b> {{ complaint.citizen.cell|remove_parentheses }}<br>
+                                <b>Village:</b> {{ complaint.citizen.village|remove_parentheses }}
+                            </td>
+                            
+                            <td>{{ complaint.publicService}}</td>
+                            <td>{{ complaint.details}}<br><br><b>Submission date: </b>{{ complaint.created_at}}</td>
+                            
+                            <td>
+                                {% with latest_feedback=complaint.feedbacks.last %}
+                                  {% if latest_feedback %}
+                                    {{ latest_feedback.details }}<br>
+                                    <small><em>{{ latest_feedback.created_at|date:"Y-m-d H:i" }}</em></small>
+                                  {% else %}
+                                    <em>No feedback</em>
+                                  {% endif %}
+                                {% endwith %}
+                              </td>
+                            <td>{{ complaint.status}}</td>
+  
+                            <td class="action-buttons">
+                                {% if complaint.status != 'Resolved' %}
+                                  <a href="/give_feedback/{{complaint.id }}" class="btn-action btn-edit">
+                                    <i class="fas fa-check-circle"></i> Feedback
+                                  </a>
+                                {% else %}
+                                  <span class="badge badge-success"></span>
+                                {% endif %}
+                              </td>
+                           
+                        </tr>
+                        {% empty %}
+                          
+                            <tr>
+                                <td colspan="16">No complaints found.</td>
+                            </tr>
+                         
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+              </div>
+              
+            
+
+            <div id="service-table" class="card" style="display: none;">
+
+                <div class="card-header">
+                    <h2 class="card-title">Services types : {{ publicservices_count }}</h2>
+                  <a href="/add_publicservice/" style="text-decoration: none;"> <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Service Agency
+                    </button></a>
+                </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <!-- <th>#</th> -->
+                            <th>Service Type</th>
+                            <th>Definition</th>
+                            <th>Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in publicservices %}
+                        <tr>
+                            
+                            <td>{{ a.serviceType }}</td>
+                            <td>{{ a.definition }}</td>
+                            <td>
+                            
+                                <a href="/edit_service/{{ a.id }}" class="btn-action btn-edit">
+                                    <i class="fas fa-edit"></i>Edit
+                                </a>
+
+                                <a href="/view_service_feedbacks/{{ a.id }}/" class="btn-action btn-edit">
+                                    <i class="fas fa-edit"></i>Views Feedbacks
+                                </a>
+                                <form method="POST" action="/delete_service/{{ a.id }}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-action btn-delete"
+                                        onclick="return confirm('Are you sure you want to delete this service type ?');">
+                                        <i class="fas fa-trash"></i>Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8">No service available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </div>
+            </div>
+
+            <div id="service" class="card" style="display:none;">
+                <div class="main-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Add Government Agency</div>
+                        </div>
+                
+                        <form method="post">
+                            {% csrf_token %}
+                            <div style="margin-bottom: 10px;">
+                                {{ form.serviceType.label_tag }}<br>
+                                {{ form.serviceType }}
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                {{ form.definition.label_tag }}<br>
+                                {{ form.definition }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Service</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+
+
+        </div>
+
+       
+        
+    </div>
+
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+
+        
+</body>
+</html>

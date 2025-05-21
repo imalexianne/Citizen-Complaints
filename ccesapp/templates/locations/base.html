@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Location Management</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'province_list' %}">Provinces</a> |
+        <a href="{% url 'district_list' %}">Districts</a> |
+        <a href="{% url 'sector_list' %}">Sectors</a> |
+        <a href="{% url 'cell_list' %}">Cells</a> |
+        <a href="{% url 'village_list' %}">Villages</a>
+    </nav>
+    <hr>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

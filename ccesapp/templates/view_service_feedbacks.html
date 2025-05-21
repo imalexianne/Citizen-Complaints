@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Feedbacks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/submit_complaint.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Feedbacks for {{ service.serviceType }}</h2>
+
+        {% for feedback in feedbacks %}
+            <div class="card" style="margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                <p><strong>From:</strong> {{ feedback.user.username }}</p>
+                <p><strong>Details:</strong> {{ feedback.details }}</p>
+                <p style="font-size: 0.9em; color: #777;"><em>Submitted on {{ feedback.created_at|date:"Y-m-d H:i" }}</em></p>
+            </div>
+        {% empty %}
+            <p>No feedback submitted yet.</p>
+        {% endfor %}
+        {% if user.is_superuser %}
+            <a href="/admin_dashboard/" style="padding: 2%;">
+                <button class="edit-button">Back</button>
+            </a>
+        {% else %}
+            <a href="/citizen/dashboard" style="padding: 2%;">
+                <button class="edit-button">Back</button>
+            </a>
+        {% endif %}
+    </div>
+</body>
+</html>
+

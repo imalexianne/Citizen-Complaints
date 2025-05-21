@@ -1,0 +1,13 @@
+
+<h2>Provinces</h2>
+<a href="/provinces/add/">Add Province</a>
+<ul>
+    {% for province in provinces %}
+        <li>
+            {{ province.name }}
+            <a href="/provinces/<int:pk>/edit/">Edit</a>
+            <a href="provinces/<int:pk>/delete/">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+

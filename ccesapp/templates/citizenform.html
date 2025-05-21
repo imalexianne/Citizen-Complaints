@@ -1,0 +1,60 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#id_province").change(function() {
+            var province_id = $(this).val();
+            $.ajax({
+                url: "/ajax/districts/",
+                data: { "province_id": province_id },
+                success: function(data) {
+                    $("#id_district").html('<option value="">Select District</option>');
+                    data.forEach(function(d) {
+                        $("#id_district").append('<option value="'+d.id+'">'+d.name+'</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_district").change(function() {
+            var district_id = $(this).val();
+            $.ajax({
+                url: "/ajax/sectors/",
+                data: { "district_id": district_id },
+                success: function(data) {
+                    $("#id_sector").html('<option value="">Select Sector</option>');
+                    data.forEach(function(d) {
+                        $("#id_sector").append('<option value="'+d.id+'">'+d.name+'</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_sector").change(function() {
+            var sector_id = $(this).val();
+            $.ajax({
+                url: "/ajax/cells/",
+                data: { "sector_id": sector_id },
+                success: function(data) {
+                    $("#id_cell").html('<option value="">Select Cell</option>');
+                    data.forEach(function(d) {
+                        $("#id_cell").append('<option value="'+d.id+'">'+d.name+'</option>');
+                    });
+                }
+            });
+        });
+
+        $("#id_cell").change(function() {
+            var cell_id = $(this).val();
+            $.ajax({
+                url: "/ajax/villages/",
+                data: { "cell_id": cell_id },
+                success: function(data) {
+                    $("#id_village").html('<option value="">Select Village</option>');
+                    data.forEach(function(d) {
+                        $("#id_village").append('<option value="'+d.id+'">'+d.name+'</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>

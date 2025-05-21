@@ -1,0 +1,13 @@
+
+<h2>Districts</h2>
+<a href="/districts/add/">Add District</a>
+<ul>
+    {% for district in districts %}
+        <li>
+            {{ district.name }} ({{ district.province.name }})
+            <a href="/districts/<int:pk>/edit/">Edit</a>
+            <a href="/districts/<int:pk>/delete/">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+

@@ -1,0 +1,12 @@
+
+    <h2>Sectors</h2>
+    <a href="/sectors/add/">Add Sector</a>
+    <ul>
+        {% for sector in sectors %}
+            <li>{{ sector.name }} ({{ sector.district.name }})
+                <a href="sectors/<int:pk>/edit/">Edit</a>
+                <a href="sectors/<int:pk>/edit/">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+

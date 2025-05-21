@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Location Selection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/location_selection.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Left: NID Info -->
+        <div class="nid-section">
+            <h2>NID Info</h2>
+            <p><strong>Name:</strong> {{ name }}</p>
+            <p><strong>NID:</strong> {{ nid }}</p>
+            <p><strong>Nationality:</strong> {{ nationality }}</p>
+            <p><strong>Date of Birth:</strong> {{ dob }}</p>
+            <p><strong>Marital Status:</strong> {{ status }}</p>
+            <p><strong>Address:</strong> {{ address }}</p>
+
+            {% if photo %}
+                <p><strong>Photo:</strong></p>
+                <img src="{{ photo }}" alt="User Photo" width="150">
+            {% endif %}
+        </div>
+
+        <!-- Right: Form Part -->
+        <div class="form-section">
+            <form method="POST" action="/save-citizen/">
+                {% csrf_token %}
+                <!-- Step 1 -->
+                <div class="form-part active" id="step1">
+                    <h3>Basic Information</h3>
+
+                    <label for="account_number">Account Number:</label>
+                    <input type="text" id="account_number" name="account_number" value="{{ account_number }}" readonly class="readonly-field">
+
+                    <label for="agent_reference">Agent Reference:</label>
+                    <input type="text" id="agent_reference" name="agent_reference" value="{{ request.user.agent.agent_reference }}" readonly class="readonly-field">
+
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" value="user_{{ nid }}" required>
+                    <small class="form-text text-muted">Default username is based on your National ID. You can change it if you prefer.</small>
+
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                    <small class="form-text text-muted">We'll use this to contact you.</small>
+
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="tel" id="phone_number" name="phone_number" placeholder="Phone number" required>
+                    <small class="form-text text-muted">Include country code if applicable.</small>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                    <small class="form-text text-muted">Leave blank and we'll generate a secure password for you.</small>
+
+                    <div class="nav-buttons">
+                        <span></span>
+                        <button type="button" class="next-button" onclick="showStep(2)">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="form-part" id="step2">
+                    <h3>Location Information</h3>
+
+                    <label for="province">Province:</label>
+                    <select id="province" name="province" required>
+                        <option value="">Select Province</option>
+                        {% for p in provinces %}
+                            <option value="{{ p.id }}" {% if p.id == default_province %}selected{% endif %}>{{ p.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="district">District:</label>
+                    <select id="district" name="district" required>
+                        <option value="">Select District</option>
+                    </select>
+
+                    <label for="sector">Sector:</label>
+                    <select id="sector" name="sector" required>
+                        <option value="">Select Sector</option>
+                    </select>
+
+                    <label for="cell">Cell:</label>
+                    <select id="cell" name="cell" required>
+                        <option value="">Select Cell</option>
+                    </select>
+
+                    <label for="village">Village:</label>
+                    <select id="village" name="village" required>
+                        <option value="">Select Village</option>
+                    </select>
+
+                    <label for="street">Street:</label>
+                    <input type="text" name="street" id="street" placeholder="Enter street name or number" required>
+
+                    <input type="hidden" name="nid" value="{{ nid }}">
+                    <input type="hidden" name="name" value="{{ name }}">
+                    <input type="hidden" name="nationality" value="{{ nationality }}">
+
+                    <div class="nav-buttons">
+                        <button type="button" class="back-button" onclick="showStep(1)">Back</button>
+                        <span style="flex: 1;"></span>
+                    </div>
+
+                    <button type="submit" name="save_citizen">Save Citizen Information</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> <!-- Your form ends -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/location_selection.js' %}"></script>
+</body>
+</html>
+
+</body>
+</html>

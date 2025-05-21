@@ -1,0 +1,9 @@
+
+  <h2>{% if form.instance.pk %}Edit Province{% else %}Add Province{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <a href="/provinces/">Back to Province List</a>
+
