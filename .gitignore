@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Env & Secrets
+.env
+*.sqlite3
+
+
+# Virtualenv
+env/
+
+# Migrations (optional)
+**/migrations/*.pyc
+**/migrations/__pycache__/
