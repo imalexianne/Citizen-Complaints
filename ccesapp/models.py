@@ -137,4 +137,15 @@ class AgencyFeedback(models.Model):
 
 
 
+class ServiceDashboard(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='serviceadmin')
+    publicservice = models.ForeignKey(PublicService, on_delete=models.SET_NULL, null=True, related_name='serviceadmin')
+    name = models.CharField(max_length=100, blank=True, null=True)
+    nid = models.CharField(max_length=16, unique=True)
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)
+    email = models.EmailField(max_length=255,null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    def __str__(self):
+        return self.name
+
 

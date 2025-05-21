@@ -1,7 +1,7 @@
 from django.contrib.auth.hashers import make_password
 
 from django import forms
-from .models import Citizen, Province, District, Sector, Cell, Village, Complaint, Agent, PublicService, Feedback, AgencyFeedback
+from .models import Citizen, Province, District, Sector, Cell, Village, Complaint, Agent, PublicService, Feedback, AgencyFeedback, ServiceDashboard
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -62,6 +62,8 @@ class AgentSignUpForm(UserCreationForm):
         if Agent.objects.filter(agent_reference=reference).exists():
             raise forms.ValidationError("This agent reference number is already in use.")
         return reference
+
+
 
 class CitizenRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), label="Password")
@@ -169,3 +171,19 @@ class AgencyFeedbackForm(forms.ModelForm):
         widgets = {
             'details': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Enter your feedback...'}),
         }
+
+class ServiceAdminRegistrationForm(UserCreationForm):
+    name = forms.CharField(max_length=100, required=True)
+    nid = forms.CharField(max_length=16, required=True)
+    email = forms.EmailField(required=False)
+    phone_number = forms.CharField(max_length=20, required=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2', 'name', 'nid', 'email', 'phone_number')
+
+    def clean_nid(self):
+        nid = self.cleaned_data['nid']
+        if ServiceDashboard.objects.filter(nid=nid).exists():
+            raise forms.ValidationError("This NID is already registered.")
+        return nid

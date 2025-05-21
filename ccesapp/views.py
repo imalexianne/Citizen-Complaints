@@ -1,8 +1,8 @@
 import os
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .forms import ProvinceForm, DistrictForm, SectorForm, CellForm, VillageForm, FeedbackForm, ServiceEditForm, CitizenEditForm,CitizenForm, PublicServiceForm, AgentSignUpForm, CitizenRegistrationForm, CitizenLoginForm, AgencyFeedbackForm
+from .forms import ProvinceForm, DistrictForm, SectorForm, CellForm, VillageForm, FeedbackForm, ServiceEditForm, CitizenEditForm,CitizenForm, PublicServiceForm, AgentSignUpForm, CitizenRegistrationForm, CitizenLoginForm, AgencyFeedbackForm,ServiceAdminRegistrationForm
 from django.urls import reverse_lazy, reverse
-from .models import Province, District, Sector, Cell, Village, PublicService,Complaint, Citizen,Agent, AgencyFeedback
+from .models import Province, District, Sector, Cell, Village, PublicService,Complaint, Citizen,Agent, AgencyFeedback, ServiceDashboard
 import random
 from reportlab.pdfgen import canvas
 from django.contrib.auth.decorators import login_required
@@ -23,8 +23,8 @@ import base64
 from django.core.files.base import ContentFile
 
 def index(request):
-    
-    return render(request, 'index.html' )
+    services = PublicService.objects.all()
+    return render(request, 'index.html',  {'services': services} )
 
 def signup(request):
     
@@ -35,23 +35,29 @@ def signup(request):
 def redirect_after_login(request):
     user = request.user
 
-    # Redirect superuser or staff (admin)
+    # Superuser
     if user.is_superuser:
-    # or user.is_staff:
-        return redirect('/admin_dashboard/')  # or use a custom admin dashboard like: redirect('admin_dashboard')
+        return redirect('/admin_dashboard/')
 
-    # Redirect Agent
+    # Agent
     elif hasattr(user, 'agent'):
         return redirect('/citizen/registration') 
 
-    # Redirect citizen
+    # Citizen
     elif hasattr(user, 'citizen'):
         return redirect('/citizen/dashboard')
 
+    # Service Admin
+    elif hasattr(user, 'serviceadmin'):
+        service_admin = user.serviceadmin
+        public_service_id = service_admin.publicservice.id
+        return redirect(f'/service_admin_dashboard/{public_service_id}/')
+
+    # Unknown role
     else:
-    
         logout(request)
         return redirect('/login/')
+
 
 
 def logout_view(request):
@@ -366,6 +372,7 @@ def get_villages(request):
 
 @login_required
 def admin_dashboard(request):
+    user = request.user
     user_count = Citizen.objects.count()
     citizens = Citizen.objects.all()
     complaints = Complaint.objects.all()
@@ -376,6 +383,7 @@ def admin_dashboard(request):
     ).all()
 
     context = {
+        'user':user,
         "publicservices_count":publicservices_count,
         "user_count": user_count,
         "citizens": citizens,
@@ -552,27 +560,6 @@ def agent_signup(request):
     return render(request, 'agent_signup.html', {'form': form})
 
 
-
-
-def get_districts(request):
-    province_id = request.GET.get('province_id')
-    districts = District.objects.filter(province_id=province_id).values('id', 'name')
-    return JsonResponse(list(districts), safe=False)
-
-def get_sectors(request):
-    district_id = request.GET.get('district_id')
-    sectors = Sector.objects.filter(district_id=district_id).values('id', 'name')
-    return JsonResponse(list(sectors), safe=False)
-
-def get_cells(request):
-    sector_id = request.GET.get('sector_id')
-    cells = Cell.objects.filter(sector_id=sector_id).values('id', 'name')
-    return JsonResponse(list(cells), safe=False)
-
-def get_villages(request):
-    cell_id = request.GET.get('cell_id')
-    villages = Village.objects.filter(cell_id=cell_id).values('id', 'name')
-    return JsonResponse(list(villages), safe=False)
 
 def generate_account_number():
     return f"ACCT{random.randint(10000000, 99999999)}"
@@ -918,3 +905,78 @@ def view_service_feedbacks(request, service_id):
     return render(request, 'view_service_feedbacks.html', {'service': service, 'feedbacks': feedbacks})
 
 
+def service_login(request, service_id):
+    service = get_object_or_404(PublicService, id=service_id)
+    return render(request, 'service_login.html', {'service': service})
+
+def service_register(request, service_id):
+    service = get_object_or_404(PublicService, id=service_id)
+
+    if request.method == 'POST':
+        form = ServiceAdminRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Saves the User
+            dashboard = ServiceDashboard.objects.create(
+                user=user,
+                publicservice=service,
+                name=form.cleaned_data['name'],
+                nid=form.cleaned_data['nid'],
+                username=user.username,
+                email=form.cleaned_data['email'],
+                phone_number=form.cleaned_data['phone_number']
+            )
+            login(request, user)  # Optional: log the user in
+            return redirect('/admin_dashboard/', service_id=service.id)
+    else:
+        form = ServiceAdminRegistrationForm()
+
+    return render(request, 'service_register.html', {
+        'form': form,
+        'service': service
+    })
+@login_required
+def service_admin_dashboard(request, service_id):
+    user = request.user
+
+    # Ensure the user is a service admin
+    if not hasattr(user, 'serviceadmin'):
+        return redirect('/unauthorized/')
+
+    service_admin = user.serviceadmin
+
+    # Ensure they only access their own public service
+    if service_admin.publicservice.id != service_id:
+        return redirect('/unauthorized/')
+
+    # Handle password verification
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        auth_user = authenticate(username=user.username, password=password)
+
+        if auth_user is None:
+            messages.error(request, 'Incorrect password. Please try again.')
+        else:
+            # Password is correct, proceed to render the dashboard
+            public_service = get_object_or_404(PublicService, id=service_id)
+            complaints = Complaint.objects.filter(publicService=public_service).select_related('citizen')
+
+            total_complaints = complaints.count()
+            resolved_complaints = complaints.filter(status='Resolved').count()
+            pending_complaints = complaints.filter(status='Pending').count()
+
+            context = {
+                'service_admin':service_admin,
+                'services': public_service,
+                'complaints': complaints,
+                'total_complaints': total_complaints,
+                'resolved_complaints': resolved_complaints,
+                'pending_complaints': pending_complaints,
+                'password_confirmed': True,
+            }
+            return render(request, 'service_admin/dashboard.html', context)
+
+    return render(request, 'service_admin/confirm_password.html', {'service_id': service_id})
+
+
+def unauthorized(request):
+    return render(request, 'unauthorized.html')

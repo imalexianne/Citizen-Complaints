@@ -1,0 +1,82 @@
+
+{% load static %}
+
+
+<div class="container mt-5">
+    <div class="card shadow p-4 mb-4">
+        <h2 class="mb-4">Welcome, Service Admin of {{ service.serviceType }}</h2>
+        <div class="row text-center mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white shadow-sm">
+                    <div class="card-body">
+                        <h5>Total Complaints</h5>
+                        <h3>{{ total_complaints }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white shadow-sm">
+                    <div class="card-body">
+                        <h5>Resolved</h5>
+                        <h3>{{ resolved_complaints }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white shadow-sm">
+                    <div class="card-body">
+                        <h5>Pending</h5>
+                        <h3>{{ pending_complaints }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3">All Complaints</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Citizen</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Date Submitted</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ complaint.citizen.names }}</td>
+                        <td>{{ complaint.title }}</td>
+                        <td>
+                            {% if complaint.status == "Resolved" %}
+                                <span class="badge bg-success">{{ complaint.status }}</span>
+                            {% elif complaint.status == "Pending" %}
+                                <span class="badge bg-warning text-dark">{{ complaint.status }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ complaint.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ complaint.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if complaint.status != "Resolved" %}
+                                <a href="/give_feedback/{{complaint.id}}/" class="btn btn-sm btn-outline-primary">Give Feedback</a>
+                            {% else %}
+                                <span class="text-muted">No action needed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No complaints yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

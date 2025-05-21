@@ -18,7 +18,7 @@ app_name = "ccesapp"
 
 urlpatterns = [
     
-    path('', auth_views.LoginView.as_view(), name='index'),
+    path('', views.index, name='index'),
     path('citizen/registration', views.signup, name='signup'),
     path('verify_nid', views.verify_nid, name='verify_nid'),
     path('password', views.password, name='password'),
@@ -96,7 +96,13 @@ urlpatterns = [
    
     path('view_service_feedbacks/<int:service_id>/', views.view_service_feedbacks, name='view_service_feedbacks'),
 
-    
+    path('service/<int:service_id>/login/', views.service_login, name='service_login'),
+    path('service/<int:service_id>/register/', views.service_register, name='service_register'),
+
+    path('service_admin_dashboard/<int:service_id>/', views.service_admin_dashboard, name='service_admin_dashboard'),
+   
+    path('unauthorized/', views.unauthorized, name='unauthorized'),
+
     path('logout/', views.logout_view, name='logout'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
 
