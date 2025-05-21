@@ -1,0 +1,430 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    
+}
+html, body {
+width: 100%;
+}
+
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    
+}
+
+.sidebar {
+    width: 236px;
+    background-color: #101d42;
+    color: white;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.logo {
+    padding: 20px;
+    text-align: center;
+}
+
+.logo img {
+    width: 30px;
+    height: auto;
+}
+
+.sidebar-menu {
+    list-style-type: none;
+}
+
+.sidebar-menu li {
+    padding: 12px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.sidebar-menu li:hover {
+    background-color: #1a2b5a;
+}
+
+.sidebar-menu li.active {
+    background-color: #354987;
+}
+
+.sidebar-menu li i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+.main-content {
+    flex-grow: 1;
+    /* padding: 20px; */
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.hamburger-menu {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.user-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-dropdown img {
+    width: 24px;
+    height: auto;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* padding: 20px; */
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 20px;
+    color: #333;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: #b5b564;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #a0a056;
+}
+
+.table-controls {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.entries-selector {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 12px 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+th:hover {
+    background-color: #f1f1f1;
+}
+
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.user-icon {
+    width: 24px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-active {
+    background-color: #7ac142;
+    color: white;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-action {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-profile {
+    background-color: #b5b564;
+}
+
+.btn-edit {
+    background-color: #4CAF50;
+}
+
+.btn-update {
+    background-color: #2196F3;
+}
+
+.btn-delete {
+    background-color: #F44336;
+}
+
+.btn-medical {
+    background-color: #4CAF50;
+}
+
+.btn-action i {
+    margin-right: 5px;
+}
+.btn-payment {
+    background-color: #ff9800; /* orange */
+} 
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-info {
+    margin-right: auto;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination-button {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.pagination-button.active {
+    background-color: #b5b564;
+    color: white;
+    border-color: #b5b564;
+}
+
+.pagination-slider {
+    width: 200px;
+    height: 5px;
+    background-color: #ddd;
+    margin: 0 10px;
+    position: relative;
+}
+
+.pagination-thumb {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #b5b564;
+    left: 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.status-badge {
+padding: 6px 12px;
+border-radius: 20px;
+font-size: 13px;
+font-weight: 600;
+display: inline-flex;
+align-items: center;
+gap: 6px;
+}
+
+.status-active {
+background-color: #28a745;
+color: #fff;
+}
+
+.status-inactive {
+background-color: #dc3545;
+color: #fff;
+}
+
+
+.dropdown > div {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 12px 15px;
+cursor: pointer;
+transition: background-color 0.3s;
+}
+
+.dropdown > div:hover {
+background-color: #1a2b5a;
+}
+
+.submenu {
+list-style-type: none;
+padding-left: 20px;
+display: none;
+background-color: #0e1835;
+}
+
+.submenu li {
+padding: 10px;
+cursor: pointer;
+display: flex;
+align-items: center;
+}
+
+.submenu li:hover {
+background-color: #1a2b5a;
+}
+
+@media screen and (max-width: 768px) {
+body {
+flex-direction: column;
+}
+
+.sidebar {
+width: 100%;
+position: relative;
+}
+
+.main-content {
+padding: 10px;
+}
+
+.header {
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
+}
+
+.sidebar-menu li {
+padding: 10px 12px;
+font-size: 14px;
+}
+
+.card {
+padding: 15px;
+}
+
+.table-controls {
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
+}
+
+.pagination {
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
+}
+
+.pagination-controls {
+justify-content: flex-start;
+flex-wrap: wrap;
+}
+
+.table-responsive {
+width: 100%;
+overflow-x: auto;
+}
+
+.sidebar-menu li span {
+font-size: 14px;
+}
+}
+
+.header-container {
+position: sticky;
+top: 0;
+z-index: 1000;
+background-color: #f5f5f5; /* match page bg */
+padding: 10px 20px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hamburger-menu {
+font-size: 24px;
+cursor: pointer;
+color: #101d42; /* or white if you want contrast */
+}
+
+.card {
+background-color: white;
+border-radius: 8px;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+padding: 20px;
+margin: 0 auto; /* Ensure no margin on the left or right */
+width: 100%; /* Make the card take up the full width */
+max-width: 100%; /* Prevent it from exceeding the screen width */
+}
+
+table, th, td {
+border: 1px solid #ddd;
+}
+
+th, td {
+border-right: 1px solid #ddd; /* Add vertical line */
+padding: 12px 8px;
+}
+
+/* Optional: Remove the last right border to avoid double line on the rightmost column */
+td:last-child, th:last-child {
+border-right: none;
+}
+
+
