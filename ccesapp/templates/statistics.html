@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Statistics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/statistics.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="statistics-section">
+            <h2>Statistics for {{ service.serviceType }}</h2>
+            <ul class="stats-list">
+                <li><strong>Total Complaints:</strong> {{ total_complaints }}</li>
+                <li><strong>Resolved:</strong> {{ resolved }}</li>
+                <li><strong>Pending:</strong> {{ pending }}</li>
+            </ul>
+           
+        </div>
+    </div>
+</body>
+</html>
+
+

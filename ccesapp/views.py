@@ -980,3 +980,18 @@ def service_admin_dashboard(request, service_id):
 
 def unauthorized(request):
     return render(request, 'unauthorized.html')
+
+def view_service_statistics(request, service_id):
+    service = get_object_or_404(PublicService, id=service_id)
+    complaints = Complaint.objects.filter(publicService=service)
+    total_complaints = complaints.count()
+    resolved = complaints.filter(status='Resolved').count()
+    pending = complaints.filter(status='pending').count()
+
+    context = {
+        'service': service,
+        'total_complaints': total_complaints,
+        'resolved': resolved,
+        'pending': pending
+    }
+    return render(request, 'statistics.html', context)

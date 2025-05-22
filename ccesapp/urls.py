@@ -98,7 +98,7 @@ urlpatterns = [
 
     path('service/<int:service_id>/login/', views.service_login, name='service_login'),
     path('service/<int:service_id>/register/', views.service_register, name='service_register'),
-
+    path('service/<int:service_id>/statistics/', views.view_service_statistics, name='view_service_statistics'),
     path('service_admin_dashboard/<int:service_id>/', views.service_admin_dashboard, name='service_admin_dashboard'),
    
     path('unauthorized/', views.unauthorized, name='unauthorized'),
