@@ -2,6 +2,9 @@
 
 ---
 
+![Home page](docs/images/homepage.png)
+
+---
 ## Overview
 
 The **Citizen Complaints and Engagement System** is a robust, user-friendly platform designed to empower citizens by simplifying the process of submitting, tracking, and resolving public service complaints. This MVP (Minimum Viable Product) aims to foster transparent communication between citizens and public service administrators, enhancing community engagement and improving government accountability.
@@ -25,11 +28,7 @@ The **Citizen Complaints and Engagement System** is a robust, user-friendly plat
 Below are screenshots and demo videos showcasing the main dashboards of the application.
 
 ---
-### Home page
 
-![Home page](docs/images/homepage.png)
-
----
 ### 1. Admin Dashboard
 
 <p align="center">
@@ -51,7 +50,7 @@ Below are screenshots and demo videos showcasing the main dashboards of the appl
   <img src="docs/images/service_admin_dashboard3.png" width="30%" />
 </p>
 
-*The Service Admin Dashboard provides an overview of complaints, status tracking, and quick actions.*
+*The Service Admin Dashboard provides an overview of complaints and their statistics, status tracking, and quick actions.*
 
 ---
 
@@ -69,7 +68,7 @@ Below are screenshots and demo videos showcasing the main dashboards of the appl
 
 **Demo:**
 
-![Public Services Listing Demo](docs/demos/public_services_listing_demo.gif)
+![Public Services Listing Demo](docs/cces2.gif)
 
 ---
 ## Technology Stack
@@ -129,4 +128,31 @@ python manage.py createsuperuser
 python manage.py runserver
 
 
+## Future Features
+
+- 📱 **Mobile App Integration:** Provide mobile support for easier access and complaint submission on the go.
+- 🌍 **Multi-language Support:** Support for multiple languages to ensure inclusivity and accessibility.
+- 🔔 **Email & SMS Notifications:** Notify users about complaint status changes and admin responses.
+- 🤝 **Community Forums:** Allow discussion and upvotes on common issues among citizens.
+- 📈 **AI-Powered Insights:** Analyze complaint trends and citizen sentiments using machine learning.
+
+---
+
+## Acknowledgements
+
+- Inspired by the need for **transparent governance** and **active civic engagement**.
+- Built with ❤️ by **Alexianne Imanirakarama.**.
+- Icons by [Font Awesome](https://fontawesome.com/), UI elements by [Bootstrap](https://getbootstrap.com/).
+
+---
+
+## Contact
+
+Alexianne Imanirakarama.  
+Kigali, Rwanda  
+📧 Email: imalexianne@gmail.com  
+📞 Phone: +250 783351129  
+🔗 GitHub: [@imalexianne](https://github.com/imalexianne)
+
+---
 
