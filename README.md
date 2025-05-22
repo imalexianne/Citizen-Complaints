@@ -140,7 +140,8 @@ python manage.py runserver
 
 ## Acknowledgements
 
-- 🙏 Special thanks to **MINICT**, **RISA**, and the **Rwanda ICT Chamber** for organizing the **Tech Associates Hackathon**, where this project was conceptualized and developed.
+- 🙏 Special thanks to [**MINICT**](https://www.minict.gov.rw), [**RISA**](https://www.risa.rw), and the [**Rwanda ICT Chamber**](https://www.ictchamber.rw/) for organizing the **Tech Associates Hackathon**, where this project was conceptualized and developed.
+
 - Inspired by the need for **transparent governance** and **active civic engagement**.
 - Built with ❤️ by **Alexianne Imanirakarama.**.
 - Icons by [Font Awesome](https://fontawesome.com/), UI elements by [Bootstrap](https://getbootstrap.com/).
