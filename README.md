@@ -46,9 +46,9 @@ Below are screenshots and demo videos showcasing the main dashboards of the appl
 ### 2. Service Admin Dashboard
 
 <p align="center">
-  <img src="docs/images/admin_dashboard1.png" width="30%" />
-  <img src="docs/images/admin_dashboard2.png" width="30%" />
-  <img src="docs/images/admin_dashboard3.png" width="30%" />
+  <img src="docs/images/service_admin_dashboard1.png" width="30%" />
+  <img src="docs/images/service_admin_dashboard2.png" width="30%" />
+  <img src="docs/images/service_admin_dashboard3.png" width="30%" />
 </p>
 
 *The Service Admin Dashboard provides an overview of complaints, status tracking, and quick actions.*
